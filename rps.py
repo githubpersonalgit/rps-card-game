@@ -45,7 +45,7 @@ class Card:
         return self._name
 
     def get_attack(self):
-        """Returns the card's attack."""
+        """Returns card's attack."""
         return self._attack
 
     def get_defense(self):
