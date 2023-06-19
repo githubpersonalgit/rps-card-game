@@ -9,11 +9,14 @@ import random
 class Player:
     """Represents a human player."""
 
+    all_players = []
+
     def __init__(self, name):
         self._name = name
         self._deck = self.create_starter_deck()
         self._hand = []
         self._discard_pile = []
+        Player.all_players.append(self)
 
     def create_starter_deck(self):
         """Creates a starter deck for all players."""
@@ -100,6 +103,8 @@ class RPS:
         """Initializes the game with the given player 1 and player 2 boards."""
         self._player1_board = ["*", ".", ".", ".", "*"]
         self._player2_board = ["*", ".", ".", ".", "*"]
+        self._first_round = True
+        self._list_of_players = Player.all_players
 
     def get_player1_board(self):
         """Returns the player 1's board."""
@@ -109,14 +114,18 @@ class RPS:
         """Returns the player 2's board."""
         return self._player2_board
 
-    def shuffle_starter_deck(self, starter_deck):
+    def shuffle_starter_decks(self):
         """Shuffles each player's deck at the beginning of the game."""
-    
+        for player in self._list_of_players:
+            random.shuffle(player.get_deck())
+
     def shuffle_discard_pile(self, discard_pile, player):
         """Shuffle the	discard pile and makes a new draw deck for the player."""
 
     def play_game(self, player):
         """Allows the player to play the game and place cards on the board."""
+        if self._first_round:
+            self.shuffle_starter_decks()
 
     def confirm_cards(self, player):
         """Confirms the player's played cards."""
@@ -133,4 +142,3 @@ class RPS:
 game = RPS()
 p1 = Player("Player 1")
 p2 = Player("Player 2")
-
