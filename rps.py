@@ -14,24 +14,24 @@ class Player:
         self._deck = self.create_starter_deck()
         self._hand = []
         self._discard_pile = []
-        
+
     def create_starter_deck(self):
         """Creates a starter deck for all players."""
-        card1 = Card("pebble", 1, 3, "rock")
-        card2 = Card("pebble", 2, 2, "rock")
-        card3 = Card("pebble", 4, 3, "rock")
-        card4 = Card("pebble", 3, 2, "rock")
-        card5 = Card("pebble", 2, 3, "rock")
-        card6 = Card("safety scissors", 4, 1, "scissors")
-        card7 = Card("safety scissors", 3, 2, "scissors")
-        card8 = Card("safety scissors", 5, 1, "scissors")
-        card9 = Card("safety scissors", 4, 3, "scissors")
-        card10 = Card("safety scissors", 3, 1, "scissors")
-        card11 = Card("sticky note", 1, 3, "paper")
-        card12 = Card("sticky note", 2, 4, "paper")
-        card13 = Card("sticky note", 1, 5, "paper")
-        card14 = Card("sticky note", 2, 3, "paper")
-        card15 = Card("sticky note", 1, 4, "paper")
+        card1 = Card("pebble1", 1, 3, "rock")
+        card2 = Card("pebble2", 2, 2, "rock")
+        card3 = Card("pebble3", 4, 3, "rock")
+        card4 = Card("pebble4", 3, 2, "rock")
+        card5 = Card("pebble5", 2, 3, "rock")
+        card6 = Card("safety scissors1", 4, 1, "scissors")
+        card7 = Card("safety scissors2", 3, 2, "scissors")
+        card8 = Card("safety scissors3", 5, 1, "scissors")
+        card9 = Card("safety scissors4", 4, 3, "scissors")
+        card10 = Card("safety scissors5", 3, 1, "scissors")
+        card11 = Card("sticky note1", 1, 3, "paper")
+        card12 = Card("sticky note2", 2, 4, "paper")
+        card13 = Card("sticky note3", 1, 5, "paper")
+        card14 = Card("sticky note4", 2, 3, "paper")
+        card15 = Card("sticky note5", 1, 4, "paper")
         starter_deck = [
             card1,
             card2,
@@ -49,7 +49,7 @@ class Player:
             card14,
             card15,
         ]
-        
+
         return starter_deck
 
     def get_name(self):
@@ -71,7 +71,6 @@ class Card:
 
     def __init__(self, name, attack, defense, suit):
         """Initializes a card with the given name, attack, defense and suit."""
-
         self._name = name
         self._attack = attack
         self._defense = defense
@@ -110,18 +109,28 @@ class RPS:
         """Returns the player 2's board."""
         return self._player2_board
 
-    def shuffle_discard_pile(self, discard_pile):
-        """Shuffle the	discard pile."""
-        random.shuffle(discard_pile)
-        return discard_pile
+    def shuffle_starter_deck(self, starter_deck):
+        """Shuffles each player's deck at the beginning of the game."""
     
+    def shuffle_discard_pile(self, discard_pile, player):
+        """Shuffle the	discard pile and makes a new draw deck for the player."""
+
     def play_game(self, player):
         """Allows the player to play the game and place cards on the board."""
-        
-        
 
     def confirm_cards(self, player):
         """Confirms the player's played cards."""
 
-        
-        
+    def draw_cards(self, player):
+        """Acardlows the player to draw cards from their deck."""
+        for card in range(5):
+            player.get_hand().append(player.get_deck().pop(card))
+
+    def discard_cards(self, player):
+        """Allows the player to discard cards from their hand."""
+
+
+game = RPS()
+p1 = Player("Player 1")
+p2 = Player("Player 2")
+
