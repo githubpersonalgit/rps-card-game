@@ -122,18 +122,23 @@ class RPS:
     def shuffle_discard_pile(self, discard_pile, player):
         """Shuffle the	discard pile and makes a new draw deck for the player."""
 
-    def play_game(self, player):
-        """Allows the player to play the game and place cards on the board."""
+    def start_round(self):
+        """Sets a new round."""
+        # if it's the first round, shuffle the starter decks
         if self._first_round:
             self.shuffle_starter_decks()
+            self._first_round = False
+        self.draw_cards()
 
     def confirm_cards(self, player):
         """Confirms the player's played cards."""
 
-    def draw_cards(self, player):
-        """Acardlows the player to draw cards from their deck."""
-        for card in range(5):
-            player.get_hand().append(player.get_deck().pop(card))
+    def draw_cards(self):
+        """Players draw five cards from their deck to their hands."""
+        for player in self._list_of_players:
+            while len(player.get_hand()) < 5:
+                player.get_hand().append(player.get_deck().pop(0))
+            
 
     def discard_cards(self, player):
         """Allows the player to discard cards from their hand."""
@@ -142,3 +147,24 @@ class RPS:
 game = RPS()
 p1 = Player("Player 1")
 p2 = Player("Player 2")
+game.shuffle_starter_decks()
+print('Player 1 deck: ')
+for card in p1.get_deck():
+    print(card.get_name())
+print('')
+print('Player 2 deck: ')
+for card in p2.get_deck():
+    print(card.get_name())
+print('')
+game.draw_cards()
+for player in game._list_of_players:
+    print(player.get_name())
+    for card in player.get_hand():
+        print(card.get_name())
+    print('')
+for player in game._list_of_players:
+    print(player.get_name())
+    for card in player.get_deck():
+        print(card.get_name())
+    print('')
+    
