@@ -77,7 +77,10 @@ class Card:
         self._name = name
         self._attack = attack
         self._defense = defense
-        self.__suit = suit
+        self._suit = suit
+        self._front = suit
+        self._back = 'X'
+        self._face = self._back
 
     def get_name(self):
         """Returns the card's name."""
@@ -130,15 +133,18 @@ class RPS:
             self._first_round = False
         self.draw_cards()
 
+    def play_card(self, player, card, position):
+        """Allows the player to play a card from their hand on the specified position."""
+        board[position] = card.get_name()
+
     def confirm_cards(self, player):
         """Confirms the player's played cards."""
 
     def draw_cards(self):
-        """Players draw five cards from their deck to their hands."""
+        """Players draw the first five cards from their deck to their hand."""
         for player in self._list_of_players:
             while len(player.get_hand()) < 5:
                 player.get_hand().append(player.get_deck().pop(0))
-            
 
     def discard_cards(self, player):
         """Allows the player to discard cards from their hand."""
@@ -148,23 +154,22 @@ game = RPS()
 p1 = Player("Player 1")
 p2 = Player("Player 2")
 game.shuffle_starter_decks()
-print('Player 1 deck: ')
+print("Player 1 deck: ")
 for card in p1.get_deck():
     print(card.get_name())
-print('')
-print('Player 2 deck: ')
+print("")
+print("Player 2 deck: ")
 for card in p2.get_deck():
     print(card.get_name())
-print('')
+print("")
 game.draw_cards()
 for player in game._list_of_players:
     print(player.get_name())
     for card in player.get_hand():
         print(card.get_name())
-    print('')
+    print("")
 for player in game._list_of_players:
     print(player.get_name())
     for card in player.get_deck():
         print(card.get_name())
-    print('')
-    
+    print("")
