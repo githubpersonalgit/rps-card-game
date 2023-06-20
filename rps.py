@@ -79,7 +79,7 @@ class Card:
         self._defense = defense
         self._suit = suit
         self._front = suit
-        self._back = 'X'
+        self._back = "X"
         self._face = self._back
 
     def get_name(self):
@@ -96,7 +96,19 @@ class Card:
 
     def get_suit(self):
         """Returns the card's suit."""
-        return self.__suit
+        return self._suit
+
+    def get_back_side(self):
+        """Returns the card's back side."""
+        return self._back
+
+    def get_front_side(self):
+        """Returns the card's front side."""
+        return self._front
+
+    def get_face(self):
+        """Returns the card's face."""
+        return self._face
 
 
 class RPS:
@@ -135,7 +147,11 @@ class RPS:
 
     def play_card(self, player, card, position):
         """Allows the player to play a card from their hand on the specified position."""
-        board[position] = card.get_name()
+        # Play a card face down on the player's board
+        if player == "player 1" or "PLayer 1":
+            self._player1_board[position] = card.get_back_side()
+        if player == "player 2" or "Player 2":
+            self._player2_board[position] = card.get_back_side()
 
     def confirm_cards(self, player):
         """Confirms the player's played cards."""
