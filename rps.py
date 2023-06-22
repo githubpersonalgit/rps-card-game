@@ -145,6 +145,12 @@ class RPS:
             self._first_round = False
         self.draw_cards()
 
+    def prompt_card_to_play(self, player_object):
+        """Prompts the player to choose a card to play."""
+        card_to_play = input(f'{player_object.get_name()}, enter name of the card to play: ')
+        position= input(f'{player_object.get_name()}, enter position to play the chosen card: ')
+        self.play_card(player_object, card_to_play, int(position))
+        
     def play_card(self, player_object, card_name, position):
         """Allows the player to play a card from their hand on the specified position."""
         # Play a card face down on the player's board
@@ -220,18 +226,15 @@ print("Player 2 deck: ")
 for card in p2.get_deck().values():
     print(card.get_name())
 print("")
-card_to_draw = input("Player 1 select a card to draw: ")
-game.play_card(p1, card_to_draw, 1)
+game.prompt_card_to_play(p1)
 game.reveal_board_cards()
 print("")
 print("This player 1's current board: ")
 print(p1.get_board())
 print('')
-card_to_draw2 = input("Player 2 select a card to draw: ")
-print('')
-game.play_card(p2, card_to_draw2, 2)
+game.prompt_card_to_play(p2)
 game.reveal_board_cards()
 print("This player 2's current board: ")
 print('')
 print(p2.get_board())
-print(p1.get_board())
+print('')
