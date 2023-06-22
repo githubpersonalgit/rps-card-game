@@ -155,7 +155,8 @@ class RPS:
                 self._player1_board[position] = player.get_hand()[
                     card_name
                 ].get_back_side()
-                self._player1_played_cards[position] = player.get_hand()[card_name]
+                self._player1_played_cards[position] = player.get_hand().pop(card_name)
+
         # if player.get_name() == "player 2" or "Player 2":
         #     self._player2_board[position] = card_name.get_back_side()
 
