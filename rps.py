@@ -21,21 +21,21 @@ class Player:
     def create_starter_deck(self):
         """Creates a starter deck for all players."""
         starter_deck = {
-        'pebble1' : Card("pebble1", 1, 3, "rock"),
-        'pebble2' : Card("pebble2", 2, 2, "rock"),
-        'pebble3' : Card("pebble3", 4, 3, "rock"),
-        'pebble4' : Card("pebble4", 3, 2, "rock"),
-        'pebble5' : Card("pebble5", 2, 3, "rock"),
-        'safety_scissors1' : Card("safety scissors1", 4, 1, "scissors"),
-        'safety_scissors2' : Card("safety scissors2", 3, 2, "scissors"),
-        'safety_scissors3' : Card("safety scissors3", 5, 1, "scissors"),
-        'safety_scissors4' : Card("safety scissors4", 4, 3, "scissors"),
-        'safety_scissors5' : Card("safety scissors5", 3, 1, "scissors"),
-        'sticky_note1' : Card("sticky note1", 1, 3, "paper"),
-        'sticky_note2' : Card("sticky note2", 2, 4, "paper"),
-        'sticky_note3' : Card("sticky note3", 1, 5, "paper"),
-        'sticky_note4' : Card("sticky note4", 2, 3, "paper"),
-        'sticky_note5' : Card("sticky note5", 1, 4, "paper")
+            "pebble 1": Card("pebble 1", 1, 3, "rock"),
+            "pebble 2": Card("pebble 2", 2, 2, "rock"),
+            "pebble 3": Card("pebble 3", 4, 3, "rock"),
+            "pebble 4": Card("pebble 4", 3, 2, "rock"),
+            "pebble 5": Card("pebble 5", 2, 3, "rock"),
+            "safety scissors 1": Card("safety scissors 1", 4, 1, "scissors"),
+            "safety scissors 2": Card("safety scissors 2", 3, 2, "scissors"),
+            "safety scissors 3": Card("safety scissors 3", 5, 1, "scissors"),
+            "safety scissors 4": Card("safety scissors 4", 4, 3, "scissors"),
+            "safety scissors 5": Card("safety scissors 5", 3, 1, "scissors"),
+            "sticky note 1": Card("sticky note 1", 1, 3, "paper"),
+            "sticky note 2": Card("sticky note 2", 2, 4, "paper"),
+            "sticky note 3": Card("sticky note 3", 1, 5, "paper"),
+            "sticky note 4": Card("sticky note 4", 2, 3, "paper"),
+            "sticky note 5": Card("sticky note 5", 1, 4, "paper"),
         }
 
         return starter_deck
@@ -51,11 +51,11 @@ class Player:
     def set_deck(self, deck):
         """Sets the player's deck to a new deck."""
         self._deck = deck
-        
+
     def get_hand(self):
         """Returns the player's hand."""
         return self._hand
-    
+
     def set_hand(self, hand):
         """Sets players' hand"""
         self._hand = hand
@@ -71,7 +71,7 @@ class Card:
         self._attack = attack
         self._defense = defense
         self._suit = suit
-        self._front = suit
+        self._front = (suit, attack, defense)
         self._back = "X"
         self._face = self._back
 
@@ -113,6 +113,8 @@ class RPS:
         self._player2_board = ["*", ".", ".", ".", "*"]
         self._first_round = True
         self._list_of_players = Player.all_players
+        self._player1_played_cards = {}
+        self._player2_played_cards = {}
 
     def get_player1_board(self):
         """Returns the player 1's board."""
@@ -129,10 +131,10 @@ class RPS:
             random.shuffle(list_of_values)
             shuffled_starter_deck = dict(list_of_values)
             player.set_deck(shuffled_starter_deck)
-    
+
     def get_list_of_players(self):
         """Returns the list of players playing the game."""
-        return self._list_of_players            
+        return self._list_of_players
 
     def shuffle_discard_pile(self, discard_pile, player):
         """Shuffle the	discard pile and makes a new draw deck for the player."""
@@ -148,22 +150,35 @@ class RPS:
     def play_card(self, player, card_name, position):
         """Allows the player to play a card from their hand on the specified position."""
         # Play a card face down on the player's board
-        if player == "player 1" or "PLayer 1":
-            self._player1_board[position] = card_name.get_back_side()
-        if player == "player 2" or "Player 2":
-            self._player2_board[position] = card_name.get_back_side()
+        if player.get_name() == "player 1" or "PLayer 1":
+            if card_name in player.get_hand():
+                self._player1_board[position] = player.get_hand()[
+                    card_name
+                ].get_back_side()
+                self._player1_played_cards[position] = player.get_hand()[card_name]
+        # if player.get_name() == "player 2" or "Player 2":
+        #     self._player2_board[position] = card_name.get_back_side()
+
+    def reveal_board_cards(self):
+        """Reveals cards on all players' boards."""
+        for index, card_in_position in enumerate(self._player1_board):
+            if card_in_position == "X":
+                self._player1_board[index] = self._player1_played_cards[
+                    index
+                ].get_front_side()
 
     def confirm_values(self, player):
         """Confirms the player's played values."""
 
     def draw_cards(self):
         """Players draw the first five values from their deck to their hand."""
-        for player in self._list_of_players:    
+        for player in self._list_of_players:
             cards_to_remove_from_deck = dict(list(player.get_deck().items())[:5])
             dictionary_of_drawn_cards = dict(cards_to_remove_from_deck)
             player.set_hand(dictionary_of_drawn_cards)
             for card in cards_to_remove_from_deck:
                 del player.get_deck()[card]
+
     def discard_values(self, player):
         """Allows the player to discard values from their hand."""
 
@@ -182,7 +197,7 @@ for card in p2.get_deck().values():
 print("")
 game.draw_cards()
 for player in game.get_list_of_players():
-    print(player.get_name() + ' hand')
+    print(player.get_name() + " hand")
     for card in player.get_hand().values():
         print(card.get_name())
     print("")
@@ -194,5 +209,9 @@ print("Player 2 deck: ")
 for card in p2.get_deck().values():
     print(card.get_name())
 print("")
-# game.play_card(p1, pebble2, 1)
-# print(game.get_player1_board())
+card_to_draw = input("Select a card to draw: ")
+game.play_card(p1, card_to_draw, 1)
+game.reveal_board_cards()
+print("")
+print("This is the current board: ")
+print(game.get_player1_board())
