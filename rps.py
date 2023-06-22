@@ -16,6 +16,7 @@ class Player:
         self._deck = self.create_starter_deck()
         self._hand = {}
         self._discard_pile = []
+        self._board = ["*", ".", ".", ".", "*"]
         Player.all_players.append(self)
 
     def create_starter_deck(self):
@@ -47,6 +48,10 @@ class Player:
     def get_deck(self):
         """Returns the player's deck."""
         return self._deck
+
+    def get_board(self):
+        """Returns the player's board."""
+        return self._board
 
     def set_deck(self, deck):
         """Sets the player's deck to a new deck."""
@@ -109,20 +114,10 @@ class RPS:
 
     def __init__(self):
         """Initializes the game with the given player 1 and player 2 boards."""
-        self._player1_board = ["*", ".", ".", ".", "*"]
-        self._player2_board = ["*", ".", ".", ".", "*"]
         self._first_round = True
         self._list_of_players = Player.all_players
         self._player1_played_cards = {}
         self._player2_played_cards = {}
-
-    def get_player1_board(self):
-        """Returns the player 1's board."""
-        return self._player1_board
-
-    def get_player2_board(self):
-        """Returns the player 2's board."""
-        return self._player2_board
 
     def shuffle_starter_decks(self):
         """Shuffles each player's deck at the beginning of the game."""
@@ -147,26 +142,27 @@ class RPS:
             self._first_round = False
         self.draw_cards()
 
-    def play_card(self, player, card_name, position):
+    def play_card(self, player_object, card_name, position):
         """Allows the player to play a card from their hand on the specified position."""
         # Play a card face down on the player's board
-        if player.get_name() == "player 1" or "PLayer 1":
-            if card_name in player.get_hand():
-                self._player1_board[position] = player.get_hand()[
+        if player_object.get_name() in ('player1', 'player 1', 'Player 1', 'Player1', 'player 2', 'player2', 'Player 2', 'Player2'):
+            if card_name in player_object.get_hand():
+                player_object.get_board()[position] = player_object.get_hand()[
                     card_name
                 ].get_back_side()
-                self._player1_played_cards[position] = player.get_hand().pop(card_name)
+                self._player1_played_cards[position] = player_object.get_hand().pop(card_name)
 
         # if player.get_name() == "player 2" or "Player 2":
         #     self._player2_board[position] = card_name.get_back_side()
 
     def reveal_board_cards(self):
         """Reveals cards on all players' boards."""
-        for index, card_in_position in enumerate(self._player1_board):
-            if card_in_position == "X":
-                self._player1_board[index] = self._player1_played_cards[
-                    index
-                ].get_front_side()
+        for player in self._list_of_players:
+            for index, card_in_position in enumerate(player.get_board()):
+                if card_in_position == "X":
+                    player.get_board()[index] = self._player1_played_cards[
+                        index
+                    ].get_front_side()
 
     def confirm_values(self, player):
         """Confirms the player's played values."""
@@ -215,4 +211,4 @@ game.play_card(p1, card_to_draw, 1)
 game.reveal_board_cards()
 print("")
 print("This is the current board: ")
-print(game.get_player1_board())
+print(p1.get_board())
