@@ -125,8 +125,10 @@ class RPS:
     def shuffle_starter_decks(self):
         """Shuffles each player's deck at the beginning of the game."""
         for player in self._list_of_players:
+            # makes a list of tuples with card name(key) : card object(value) pairs
             list_of_values = list(player.get_deck().items())
             random.shuffle(list_of_values)
+            # shuffles the player's deck
             shuffled_starter_deck = dict(list_of_values)
             player.set_deck(shuffled_starter_deck)
 
@@ -146,7 +148,7 @@ class RPS:
         self.draw_cards()
 
     def play_card(self, player_object):
-        """Prompts the player to choose a card to play."""
+        """Prompts the player to choose a card and position to play."""
         card_to_play = input(
             f"{player_object.get_name()}, enter name of the card to play: "
         )
@@ -156,8 +158,7 @@ class RPS:
         self.execute_play_card(player_object, card_to_play, int(position))
 
     def execute_play_card(self, player_object, card_name, position):
-        """Allows the player to play a card from their hand on the specified position."""
-        # Play a card face down on the player's board
+        """Places the player's selected card from their hand on the specified position."""
         if player_object.get_name() in (
             "player1",
             "player 1",
@@ -168,24 +169,27 @@ class RPS:
             "Player 2",
             "Player2",
         ):
+            # checks if the card is in the player's hand
             if card_name in player_object.get_hand():
+                # sets the selected position to the selcted card's back side
                 player_object.get_board()[position] = player_object.get_hand()[
                     card_name
                 ].get_back_side()
+                # adds the played card to that player's played cards dictionary(position : card_object)
                 player_object.get_played_cards()[
                     position
                 ] = player_object.get_hand().pop(card_name)
 
-        # if player.get_name() == "player 2" or "Player 2":
-        #     self._player2_board[position] = card_name.get_back_side()
-
     def reveal_board_cards(self):
         """Reveals cards on all players' boards."""
         for player in self._list_of_players:
-            for index, card_in_position in enumerate(player.get_board()):
+            # checks the position of every played card in the player's board
+            for position, card_in_position in enumerate(player.get_board()):
+                # checks if the card in that position is not revealed
                 if card_in_position == "X":
-                    player.get_board()[index] = player.get_played_cards()[
-                        index
+                    # reveals the card on that position
+                    player.get_board()[position] = player.get_played_cards()[
+                        position
                     ].get_front_side()
 
     def confirm_values(self, player):
