@@ -145,13 +145,17 @@ class RPS:
             self._first_round = False
         self.draw_cards()
 
-    def prompt_card_to_play(self, player_object):
+    def play_card(self, player_object):
         """Prompts the player to choose a card to play."""
-        card_to_play = input(f'{player_object.get_name()}, enter name of the card to play: ')
-        position= input(f'{player_object.get_name()}, enter position to play the chosen card: ')
-        self.play_card(player_object, card_to_play, int(position))
-        
-    def play_card(self, player_object, card_name, position):
+        card_to_play = input(
+            f"{player_object.get_name()}, enter name of the card to play: "
+        )
+        position = input(
+            f"{player_object.get_name()}, enter position to play the chosen card: "
+        )
+        self.execute_play_card(player_object, card_to_play, int(position))
+
+    def execute_play_card(self, player_object, card_name, position):
         """Allows the player to play a card from their hand on the specified position."""
         # Play a card face down on the player's board
         if player_object.get_name() in (
@@ -168,9 +172,9 @@ class RPS:
                 player_object.get_board()[position] = player_object.get_hand()[
                     card_name
                 ].get_back_side()
-                player_object.get_played_cards()[position] = player_object.get_hand().pop(
-                    card_name
-                )
+                player_object.get_played_cards()[
+                    position
+                ] = player_object.get_hand().pop(card_name)
 
         # if player.get_name() == "player 2" or "Player 2":
         #     self._player2_board[position] = card_name.get_back_side()
@@ -226,15 +230,15 @@ print("Player 2 deck: ")
 for card in p2.get_deck().values():
     print(card.get_name())
 print("")
-game.prompt_card_to_play(p1)
+game.play_card(p1)
 game.reveal_board_cards()
 print("")
 print("This player 1's current board: ")
 print(p1.get_board())
-print('')
-game.prompt_card_to_play(p2)
+print("")
+game.play_card(p2)
 game.reveal_board_cards()
 print("This player 2's current board: ")
-print('')
+print("")
 print(p2.get_board())
-print('')
+print("")
