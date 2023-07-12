@@ -149,13 +149,29 @@ class RPS:
 
     def play_card(self, player_object):
         """Prompts the player to choose a card and position to play."""
-        card_to_play = input(
-            f"{player_object.get_name()}, enter name of the card to play: "
-        )
-        position = input(
-            f"{player_object.get_name()}, enter position to play the chosen card: "
-        )
-        self.execute_play_card(player_object, card_to_play, int(position))
+        while True:
+            card_to_play = input(
+                f"{player_object.get_name()}, enter name of the card to play: "
+            )
+            if card_to_play not in player_object.get_hand():
+                print(
+                    f"{player_object.get_name()}, {card_to_play} is not in your hand or not valid. "
+                        "Please try again."
+                )
+            else:
+                position = int(
+                    input(
+                        f"{player_object.get_name()}, enter position to play the chosen card: "
+                    )
+                )
+                if position not in (1, 2, 3):
+                    print("That is not a valid position. Please try again.")
+                else:    
+                    if player_object.get_board()[position] == "X":
+                        print("You already have a card in that position. Please try again.")
+                    else:
+                        self.execute_play_card(player_object, card_to_play, position)
+                        return
 
     def execute_play_card(self, player_object, card_name, position):
         """Places the player's selected card from their hand on the specified position."""
@@ -169,16 +185,15 @@ class RPS:
             "Player 2",
             "Player2",
         ):
-            # checks if the card is in the player's hand
-            if card_name in player_object.get_hand():
-                # sets the selected position to the selcted card's back side
-                player_object.get_board()[position] = player_object.get_hand()[
-                    card_name
-                ].get_back_side()
-                # adds the played card to that player's played cards dictionary(position : card_object)
-                player_object.get_played_cards()[
-                    position
-                ] = player_object.get_hand().pop(card_name)
+            # sets the selected position to the selcted card's back side
+            player_object.get_board()[position] = player_object.get_hand()[
+                card_name
+            ].get_back_side()
+            # adds the played card to that player's played cards\
+            # dictionary(position : card_object)
+            player_object.get_played_cards()[position] = player_object.get_hand().pop(
+                card_name
+            )
 
     def reveal_board_cards(self):
         """Reveals cards on all players' boards."""
