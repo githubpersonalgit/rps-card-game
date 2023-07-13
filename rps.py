@@ -153,10 +153,12 @@ class RPS:
             card_to_play = input(
                 f"{player_object.get_name()}, enter name of the card to play: "
             )
+            if card_to_play == "cancel":
+                return
             if card_to_play not in player_object.get_hand():
                 print(
                     f"{player_object.get_name()}, {card_to_play} is not in your hand or not valid. "
-                        "Please try again."
+                    "Please try again."
                 )
             else:
                 position = int(
@@ -164,11 +166,15 @@ class RPS:
                         f"{player_object.get_name()}, enter position to play the chosen card: "
                     )
                 )
+                if position == "cancel":
+                    return
                 if position not in (1, 2, 3):
                     print("That is not a valid position. Please try again.")
-                else:    
+                else:
                     if player_object.get_board()[position] == "X":
-                        print("You already have a card in that position. Please try again.")
+                        print(
+                            "You already have a card in that position. Please try again."
+                        )
                     else:
                         self.execute_play_card(player_object, card_to_play, position)
                         return
