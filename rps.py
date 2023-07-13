@@ -16,7 +16,7 @@ class Player:
         self._deck = self.create_starter_deck()
         self._hand = {}
         self._discard_pile = []
-        self._board = ["*", ".", ".", ".", "*"]
+        self._board = ["*", "1", "2", "3", "*"]
         self._played_cards = {}
         Player.all_players.append(self)
 
