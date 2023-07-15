@@ -147,6 +147,14 @@ class RPS:
             self._first_round = False
         self.draw_cards()
 
+    def view_played_cards(self, player_object):
+        """Returns the front side of the played cards to the player_object."""
+        for position, card in player_object.get_played_cards().items():
+            print(
+                f"Position: {position}, Suit: {card.get_suit()}, Attack: {card.get_attack()}, "
+                f"Defense: {card.get_defense()}"
+            )
+
     def play_card(self, player_object):
         """Prompts the player to choose a card and position to play."""
         while True:
@@ -267,3 +275,5 @@ print("This player 2's current board: ")
 print("")
 print(p2.get_board())
 print("")
+
+game.view_played_cards(p1)
