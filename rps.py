@@ -233,6 +233,16 @@ class RPS:
             for card in cards_to_remove_from_deck:
                 del player.get_deck()[card]
 
+    def remove_card_from_board(self, player, position_to_remove_from):
+        """Removes specified card from specified player's board."""
+        if position_to_remove_from not in player.get_played_cards():
+            print("That is not a valid position.")
+        else:
+            for occupied_position, card_object in player.get_played_cards().items():
+                if occupied_position == position_to_remove_from:
+                    player._hand[card_object.get_name()] = card_object
+                    player._board[position_to_remove_from] = position_to_remove_from
+
     def discard_values(self, player):
         """Allows the player to discard values from their hand."""
 
@@ -275,5 +285,14 @@ print("This player 2's current board: ")
 print("")
 print(p2.get_board())
 print("")
-
 game.view_played_cards(p1)
+for card in p1.get_hand():
+    print(card)
+print("")
+game.remove_card_from_board(p1, 1)
+for card in p1.get_hand():
+    print(card)
+print("")
+print("This player 1's current board: ")
+print(p1.get_board())
+print("")
