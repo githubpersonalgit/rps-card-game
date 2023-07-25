@@ -240,8 +240,8 @@ class RPS:
         else:
             for occupied_position, card_object in player.get_played_cards().items():
                 if occupied_position == position_to_remove_from:
-                    player._hand[card_object.get_name()] = card_object
-                    player._board[position_to_remove_from] = position_to_remove_from
+                    player.get_hand()[card_object.get_name()] = card_object
+                    player.get_board()[position_to_remove_from] = position_to_remove_from
 
     def discard_values(self, player):
         """Allows the player to discard values from their hand."""
